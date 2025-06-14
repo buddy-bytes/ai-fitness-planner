@@ -1,2 +1,7 @@
+
+
+python-dotenv
+gradio
 openai>=1.0
 python-dotenv
+

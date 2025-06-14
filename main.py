@@ -1,11 +1,20 @@
-import user_io
-from core import get_plan
 
+import io as io_module
+
+import user_io
 
 def main():
-    goal = user_io.ask_user_goal()
+
+    goal = io_module.ask_user_goal()
     plan = get_plan(goal)
-    user_io.print_plan(plan)
+    io_module.print_plan(plan)
+
+    export = input("\nWould you like to export the plan? (y/n) ").strip().lower()
+    if export == "y":
+        filename = input("Enter filename (without extension): ").strip()
+        fmt = input("Choose format - txt or md [txt]: ").strip().lower() or "txt"
+        io_module.export_plan(plan, filename, fmt)
+
 
 
 if __name__ == "__main__":
