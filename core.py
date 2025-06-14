@@ -1,6 +1,10 @@
 import os
 from dotenv import load_dotenv
 import openai
+from langdetect import detect, DetectorFactory, LangDetectException
+
+# ensure deterministic language detection results
+DetectorFactory.seed = 0
 
 # use the client-based API from openai>=1.0
 from openai import OpenAI
@@ -21,9 +25,17 @@ def _is_thai(text: str) -> bool:
             return True
     return False
 
+
+def _goal_is_thai(text: str) -> bool:
+    """Return True if the text language is detected as Thai."""
+    try:
+        return detect(text) == "th"
+    except LangDetectException:
+        return _is_thai(text)
+
 def get_plan(goal: str) -> str:
     """Return a 7-day meal and workout plan for the given goal."""
-    thai = _is_thai(goal)
+    thai = _goal_is_thai(goal)
     system_msg = "You are an AI fitness planner."
     system_msg += " Respond in Thai." if thai else " Respond in English."
 
