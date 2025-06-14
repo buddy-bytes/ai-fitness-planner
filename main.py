@@ -1,11 +1,11 @@
-import io as io_module
+import user_io
 from core import get_plan
 
 
 def main():
-    goal = io_module.ask_user_goal()
+    goal = user_io.ask_user_goal()
     plan = get_plan(goal)
-    io_module.print_plan(plan)
+    user_io.print_plan(plan)
 
 
 if __name__ == "__main__":
