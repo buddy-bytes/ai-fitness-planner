@@ -2,11 +2,16 @@ import os
 from dotenv import load_dotenv
 import openai
 
+# use the client-based API from openai>=1.0
+from openai import OpenAI
+
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 if not openai.api_key:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
+
+client = OpenAI(api_key=openai.api_key)
 
 
 def _is_thai(text: str) -> bool:
