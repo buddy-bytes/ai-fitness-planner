@@ -3,7 +3,7 @@ AI-powered 7-day clean eating and fitness planner
 
 ## Setup
 
-1. Install dependencies:
+1. Install dependencies (the project now uses `openai>=1.0`):
    ```bash
    pip install -r requirements.txt
    ```
@@ -18,3 +18,5 @@ AI-powered 7-day clean eating and fitness planner
    ```bash
    python main.py
    ```
+
+The code uses the client-based API introduced in `openai>=1.0`.

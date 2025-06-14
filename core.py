@@ -3,9 +3,10 @@ from dotenv import load_dotenv
 import openai
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-if not openai.api_key:
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
+client = openai.OpenAI(api_key=api_key)
 
 def get_plan(goal: str) -> str:
     """Return a 7-day meal and workout plan for the given goal."""
@@ -15,7 +16,7 @@ def get_plan(goal: str) -> str:
         f"{goal}. Provide the plan in a clear, organized format with each day labeled."
     )
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": system_msg},
