@@ -55,3 +55,25 @@ def get_plan(goal: str) -> str:
         temperature=0.7,
     )
     return response.choices[0].message.content.strip()
+
+
+def evaluate_plan(goal: str, plan: str) -> str:
+    """Return short feedback evaluating the given plan."""
+    thai = _goal_is_thai(goal)
+    system_msg = "You are a fitness coach providing short feedback on a 7-day plan."
+    system_msg += " Respond in Thai." if thai else " Respond in English."
+
+    user_msg = (
+        f"Goal: {goal}\n\nPlan:\n{plan}\n\n"
+        "Give 3 sentences of feedback about whether the plan is realistic, too intense, or unbalanced."
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg},
+        ],
+        temperature=0.7,
+    )
+    return response.choices[0].message.content.strip()

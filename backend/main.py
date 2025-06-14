@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from .core import get_plan
+from .core import get_plan, evaluate_plan
 
 app = FastAPI()
 
@@ -17,6 +17,11 @@ app.add_middleware(
 class GoalRequest(BaseModel):
     goal: str
 
+
+class EvaluateRequest(BaseModel):
+    goal: str
+    plan: str
+
 @app.post("/generate")
 async def generate(req: GoalRequest):
     try:
@@ -24,4 +29,13 @@ async def generate(req: GoalRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     return {"plan": plan}
+
+
+@app.post("/evaluate")
+async def evaluate(req: EvaluateRequest):
+    try:
+        feedback = evaluate_plan(req.goal, req.plan)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return {"feedback": feedback}
 
