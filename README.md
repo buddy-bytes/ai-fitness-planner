@@ -1,6 +1,6 @@
 # AI Fitness Planner
 
-A command line and web application that generates a **7‑day meal and workout plan** using OpenAI. When your goal is written in Thai the response will also be in Thai.
+A command line and web application that generates a **7‑day meal and workout plan** using OpenAI. The planner automatically detects whether your goal is written in Thai or English using the `langdetect` library and responds in the same language.
 
 ## Setup
 
