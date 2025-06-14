@@ -88,7 +88,7 @@ with gr.Blocks(css=".container {max-width: 700px; margin: auto;}") as demo:
 
         gen_btn.click(generate_plan, [goal_tb], [plan_box, feedback_md, kcal_md])
         save_btn.click(save_plan, plan_box, download_file)
-        copy_btn.click(None, plan_box, None, _js="(text) => navigator.clipboard.writeText(text)")
+        copy_btn.click(None, plan_box, None, js="(text) => navigator.clipboard.writeText(text)")
 
 
 if __name__ == "__main__":
