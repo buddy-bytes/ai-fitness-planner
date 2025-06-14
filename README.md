@@ -18,3 +18,6 @@ AI-powered 7-day clean eating and fitness planner
    ```bash
    python main.py
    ```
+
+During execution you'll be asked to choose a goal from presets or enter a custom one.
+After the plan is displayed you can optionally export it to a `.txt` or `.md` file.

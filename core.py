@@ -7,9 +7,19 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 if not openai.api_key:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 
+
+def _is_thai(text: str) -> bool:
+    """Return True if the text contains Thai characters."""
+    for ch in text:
+        if "\u0E00" <= ch <= "\u0E7F":
+            return True
+    return False
+
 def get_plan(goal: str) -> str:
     """Return a 7-day meal and workout plan for the given goal."""
+    thai = _is_thai(goal)
     system_msg = "You are an AI fitness planner."
+    system_msg += " Respond in Thai." if thai else " Respond in English."
     user_msg = (
         "Create a 7-day meal plan and workout schedule for the following goal: "
         f"{goal}. Provide the plan in a clear, organized format with each day labeled."
