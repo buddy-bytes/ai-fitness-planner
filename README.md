@@ -1,40 +1,41 @@
-# ai-fitness-planner
-AI-powered 7-day clean eating and fitness planner
+# AI Fitness Planner
+
+A command line and web application that generates a **7‑day meal and workout plan** using OpenAI. When your goal is written in Thai the response will also be in Thai.
 
 ## Setup
 
-
-
-1. Install dependencies (the project now uses `openai>=1.0`):
+1. Install the requirements (requires `openai>=1.0`):
 
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Copy `.env.sample` to `.env` and add your OpenAI API key:
+2. Create a `.env` file from the sample and add your OpenAI API key:
+
    ```bash
    cp .env.sample .env
-   # then edit .env and set OPENAI_API_KEY
+   # edit .env and set OPENAI_API_KEY
    ```
 
-3. Run the planner:
-   ```bash
-   python main.py
-   ```
+## Command line usage
 
+Run the planner from the terminal:
 
-During execution you'll be asked to choose a goal from presets or enter a custom one.
-After the plan is displayed you can optionally export it to a `.txt` or `.md` file.
+```bash
+python main.py
+```
 
-## Web Interface
+You will be asked to pick a preset goal or enter your own. After the plan is displayed you can choose to export it to a **.txt** or **.md** file.
 
-Run the Gradio app instead of the CLI to get a web interface:
+## Web interface
+
+A simple Gradio UI is available. Launch it with:
 
 ```bash
 python app.py
 ```
 
-Select a preset goal or choose **Custom** to enter your own. Generate the plan and optionally download it as a `.txt` file.
-=======
-The code uses the client-based API introduced in `openai>=1.0`.
+Select a goal (or choose "กำหนดเอง" for custom text), generate the plan and download it if desired.
+
+The application uses the client‑based OpenAI API introduced in version 1.0.
 
