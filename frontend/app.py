@@ -1,6 +1,10 @@
 import os
 import requests
 import gradio as gr
+import sys
+
+# allow importing modules from the repository root when running this file
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from io_utils import export_plan
 
