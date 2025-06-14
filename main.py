@@ -1,7 +1,5 @@
 import io_utils as io_module
-import io as io_module
-
-import user_io
+from core import get_plan
 
 def main():
 
