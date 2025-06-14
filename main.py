@@ -1,5 +1,5 @@
 import io_utils as io_module
-from core import get_plan
+from backend.core import get_plan
 
 def main():
 

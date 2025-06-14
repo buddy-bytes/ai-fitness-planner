@@ -29,10 +29,16 @@ You will be asked to pick a preset goal or enter your own. After the plan is dis
 
 ## Web interface
 
-A simple Gradio UI is available. Launch it with:
+A simple Gradio UI is available. First start the FastAPI backend:
 
 ```bash
-python app.py
+uvicorn backend.main:app --reload
+```
+
+Then launch the frontend which will call the backend API (override `BACKEND_URL` if needed):
+
+```bash
+python frontend/app.py
 ```
 
 Select a goal (or choose "กำหนดเอง" for custom text), generate the plan and download it if desired.
