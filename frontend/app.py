@@ -1,9 +1,11 @@
+import os
+import requests
 import gradio as gr
-from core import get_plan
-from io_utils import export_plan
-import tempfile
 
-# Preset goals in Thai
+from io_utils import export_plan
+
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+
 PRESET_GOALS = [
     "ลดน้ำหนัก 3 กิโลใน 30 วัน",
     "ลดพุงและกระชับแขนขา",
@@ -13,17 +15,20 @@ PRESET_GOALS = [
 
 
 def generate_plan(selected_goal: str, custom_goal: str) -> str:
-    """Generate plan based on selected or custom goal."""
     goal = custom_goal if selected_goal == "กำหนดเอง" else selected_goal
     if not goal.strip():
         raise gr.Error("กรุณาใส่เป้าหมายก่อน")
-    return get_plan(goal)
+    resp = requests.post(f"{BACKEND_URL}/generate", json={"goal": goal})
+    if resp.status_code != 200:
+        raise gr.Error(f"Error: {resp.text}")
+    return resp.json()["plan"]
 
 
 def save_plan(plan_text: str) -> str:
-    """Save the plan to a temporary txt file and return the path."""
     if not plan_text.strip():
         raise gr.Error("ยังไม่มีแผน กรุณาสร้างแผนก่อน")
+    import tempfile
+
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".txt")
     tmp.close()
     export_plan(plan_text, tmp.name, "txt")
@@ -31,7 +36,6 @@ def save_plan(plan_text: str) -> str:
 
 
 def toggle_custom(goal: str):
-    """Show custom textbox only when 'กำหนดเอง' is selected."""
     return gr.update(visible=goal == "กำหนดเอง")
 
 
@@ -39,11 +43,7 @@ with gr.Blocks(css=".container {max-width: 700px; margin: auto;}") as demo:
     gr.Markdown("# AI Fitness Planner", elem_classes="container")
 
     with gr.Column(elem_classes="container"):
-        goal_dd = gr.Dropdown(
-            PRESET_GOALS,
-            value=PRESET_GOALS[0],
-            label="เลือกเป้าหมาย",
-        )
+        goal_dd = gr.Dropdown(PRESET_GOALS, value=PRESET_GOALS[0], label="เลือกเป้าหมาย")
         custom_tb = gr.Textbox(label="ระบุเป้าหมาย", visible=False)
         goal_dd.change(toggle_custom, goal_dd, custom_tb)
 
@@ -57,3 +57,4 @@ with gr.Blocks(css=".container {max-width: 700px; margin: auto;}") as demo:
 
 if __name__ == "__main__":
     demo.launch()
+
